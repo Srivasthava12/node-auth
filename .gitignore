@@ -1,0 +1,40 @@
+# Build output
+dist
+
+# Editor
+.vscode/
+jsconfig.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Test directory used for xml j-unit results
+test-results
+
+
+# node-waf configuration
+.lock-wscript
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Output of 'npm pack'
+*.tgz
+
+#Env Variables
+.env
