@@ -23,26 +23,6 @@ module.exports = {
 		}
 	},
 
-	async addUser(newUser) {
-		try {
-			//Saving the user data in database
-			const addedUser = await Mongo.addUser(newUser);
-			if (addedUser)
-				return {
-					success: true,
-					message: 'Successfully User Registered '
-				};
-			else
-				return {
-					success: false,
-					message: 'Unsuccessfull in Registering the User '
-				};
-		} catch (error) {
-			Log.error(error);
-			throw error;
-		}
-	},
-
 	async authenticate(email, passoword) {
 		try {
 			//To check if the email has been registered
@@ -98,6 +78,75 @@ module.exports = {
 					message: 'Mail is sent to the registered mail address'
 				};
 			}
+		} catch (error) {
+			Log.error(error);
+			throw error;
+		}
+	},
+
+	async changePassword(payload) {
+		try {
+			const oldPassword = payload.oldPassword;
+			const newPassword = payload.newPassword;
+			const email = payload.email;
+			const user = await Mongo.getUserByEmail(email);
+			if (Utilities.isUserNull(user))
+				return {
+					success: false,
+					message: 'Email or Password is wrong'
+				};
+			const isMatched = await Utilities.comparePassword(oldPassword, user.password);
+			if (isMatched) {
+				const newPasswordHash = Utilities.createHash(newPassword);
+				const toUpdatePair = {
+					password: newPasswordHash
+				};
+				const user = await this.updateProperty(email, toUpdatePair);
+				if (user)
+					return {
+						success: true,
+						msg: 'Password is Changed'
+					};
+				return {
+					success: false,
+					msg: 'Password is not Changed'
+				};
+			}
+			return {
+				success: false,
+				msg: 'Wrong Password'
+			};
+		} catch (error) {
+			Log.error(error);
+			throw error;
+		}
+	},
+
+	async updateProperty(email, toUpdatePair) {
+		try {
+			const query = { email };
+			const user = await Mongo.updateUserProperty(query, toUpdatePair);
+			return user;
+		} catch (error) {
+			Log.error(error);
+			throw error;
+		}
+	},
+
+	async addUser(newUser) {
+		try {
+			//Saving the user data in database
+			const addedUser = await Mongo.addUser(newUser);
+			if (addedUser)
+				return {
+					success: true,
+					message: 'Successfully User Registered '
+				};
+			else
+				return {
+					success: false,
+					message: 'Unsuccessfull in Registering the User '
+				};
 		} catch (error) {
 			Log.error(error);
 			throw error;

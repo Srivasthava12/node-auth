@@ -20,7 +20,12 @@ router.config = {
 			email: Joi.string().required(true),
 			password: Joi.string().required(true)
 		}),
-		userforgotpassword: Joi.object().keys({
+		userForgotpassword: Joi.object().keys({
+			email: Joi.string().required(true)
+		}),
+		userChangepassword: Joi.object().keys({
+			oldPassword: Joi.string().required(true),
+			newPassword: Joi.string().required(true),
 			email: Joi.string().required(true)
 		})
 	}
@@ -66,7 +71,7 @@ router.post('/authenticate', async (req, res) => {
 	}
 	try {
 		const response = await User.authenticate(email, password);
-		return res.json({ response });
+		return res.json(response);
 	} catch (error) {
 		return res.boom.badRequest('Error in authenticating the user', error);
 	}
@@ -76,11 +81,15 @@ router.post('/authenticate', async (req, res) => {
 router.get('/authenticate/facebook', PassportMiddleware.authWithFacebook(Passport));
 
 //Retrun
-router.get('/authenticate/facebook/return', Passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-	const token = Utilities.generateToken(req.user._json, 604800);
-	res.writeHead(301, { Location: `${process.env.CLIENT_URL}/profile?index=${token}` });
-	res.end();
-});
+router.get(
+	'/authenticate/facebook/return',
+	Passport.authenticate('facebook', { failureRedirect: '/login' }),
+	(req, res) => {
+		const token = Utilities.generateToken(req.user._json, 604800);
+		res.writeHead(301, { Location: `${process.env.CLIENT_URL}/profile?index=${token}` });
+		res.end();
+	}
+);
 
 //Profile
 router.get('/profile', PassportMiddleware.authWithJwt(Passport), (req, res) => {
@@ -97,7 +106,7 @@ router.post('/forgotpassword', async (req, res) => {
 	let payload = {
 		email
 	};
-	const result = Joi.validate(payload, router.config.schema.userforgotpassword);
+	const result = Joi.validate(payload, router.config.schema.userForgotpassword);
 
 	if (result.error) {
 		req.log.info(`Error encountered ${Util.inspect(result, { depth: null })}`);
@@ -111,4 +120,24 @@ router.post('/forgotpassword', async (req, res) => {
 	}
 });
 
+//ChangePassword
+router.post('/changepassword', PassportMiddleware.authWithJwt(Passport), async (req, res) => {
+	let payload = {
+		oldPassword: req.body.oldPassword,
+		newPassword: req.body.newPassword,
+		email: req.user.email
+	};
+	const result = Joi.validate(payload, router.config.schema.userChangepassword);
+
+	if (result.error) {
+		req.log.info(`Error encountered ${Util.inspect(result, { depth: null })}`);
+		return res.boom.badData(result.error);
+	}
+	try {
+		const response = await User.changePassword(payload);
+		return res.json(response);
+	} catch (error) {
+		return res.boom.badRequest('Error in Processing Forgotpassword', error);
+	}
+});
 module.exports = router;

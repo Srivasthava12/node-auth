@@ -1,6 +1,6 @@
 import { Log } from '../../services/log';
-import Mongoose from 'mongoose'
-import Utilities from '../utilities/utilities'
+import Mongoose from 'mongoose';
+import Utilities from '../utilities/utilities';
 
 const userSchema = Mongoose.Schema({
 	name: {
@@ -35,7 +35,7 @@ module.exports = {
 	//Add the User to DataBase
 	async addUser(newUser) {
 		try {
-			const hash = Utilities.createHash(newUser.password)
+			const hash = Utilities.createHash(newUser.password);
 			newUser.password = hash;
 			let user = new User(newUser);
 			return user.save();
@@ -47,7 +47,15 @@ module.exports = {
 	//Get User by Id
 	async getUserById(Id) {
 		try {
-			return User.findById(Id)
+			return User.findById(Id);
+		} catch (error) {
+			Log.error(error);
+			throw error;
+		}
+	},
+	async updateUserProperty(query, toUpdatePropsQuery) {
+		try {
+			return User.findOneAndUpdate(query, toUpdatePropsQuery);
 		} catch (error) {
 			Log.error(error);
 			throw error;
