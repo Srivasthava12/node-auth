@@ -26,5 +26,8 @@ module.exports = {
 			default:
 				return 'HELLO';
 		}
+	},
+	isUserNull(user){
+		return user == null
 	}
 };

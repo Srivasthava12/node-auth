@@ -3,7 +3,7 @@ import Nodemailer from 'nodemailer'
 module.exports = {
     //Used for Mailing
     async nodeMailer(toEmail, subject, message) {
-
+        
         try {
             const transporter = Nodemailer.createTransport({
                 service: 'gmail',

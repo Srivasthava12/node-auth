@@ -4,7 +4,7 @@ import User from '../services/user';
 import Util from 'util';
 import Passport from 'passport';
 import PassportMiddleware from '../lib/passport/passportMiddleware';
-import JWT from 'jsonwebtoken'
+import Utilities from '../lib/utilities/utilities';
 
 const router = Express.Router();
 
@@ -73,11 +73,12 @@ router.post('/authenticate', async (req, res) => {
 });
 
 //Authentication with facebook
-router.get('/authenticate/facebook', Passport.authenticate('facebook', { scope: [ 'email' ] }));
+router.get('/authenticate/facebook', PassportMiddleware.authWithFacebook(Passport));
 
-router.get('/authenticate/facebook/return', Passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
-	const token = JWT.sign({ data: req.user._json }, 'secret', { expiresIn: 604800 });
-	res.writeHead(301, { Location: `http://localhost:3000/profile?index=${token}` });
+//Retrun
+router.get('/authenticate/facebook/return', Passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+	const token = Utilities.generateToken(req.user._json, 604800);
+	res.writeHead(301, { Location: `${process.env.CLIENT_URL}/profile?index=${token}` });
 	res.end();
 });
 
