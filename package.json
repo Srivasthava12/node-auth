@@ -7,8 +7,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
 		"start": "npm run build && node dist/index.js",
-		"docker": "docker build -t srivasthava/node:v1 .; docker run -p 3000:3000 -d srivasthava/node:v1",
-		"docker-sh": "docker build -t srivasthava/node:v1 .; docker run -p 3000:3000 -it --entrypoint=sh srivasthava/node:v1 -i"
+		"docker": "docker build -t srivasthava/node:v1 .",
+		"docker-sh": "docker build -t srivasthava/node:v1 .;docker run -p 3000:3000 -it --entrypoint=sh srivasthava/node:v1 -i"
 	},
 	"author": "Srivasthava Nunna",
 	"license": "ISC",
