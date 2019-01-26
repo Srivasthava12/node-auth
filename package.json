@@ -20,6 +20,7 @@
 		"express": "^4.16.4",
 		"express-boom": "^2.0.0",
 		"express-pino-logger": "^4.0.0",
+		"express-session": "^1.15.6",
 		"joi": "^14.3.0",
 		"jsonwebtoken": "*",
 		"jwt-decode": "^2.2.0",
@@ -28,7 +29,8 @@
 		"passport": "*",
 		"passport-facebook": "*",
 		"passport-jwt": "*",
-		"request": "^2.88.0"
+		"request": "^2.88.0",
+		"socket.io": "^2.2.0"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.24.0",
