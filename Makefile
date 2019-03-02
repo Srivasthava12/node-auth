@@ -1,5 +1,5 @@
 include env_config
-include .env
+
 
 default: build
 
