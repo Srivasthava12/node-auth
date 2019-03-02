@@ -4,7 +4,6 @@ import User from '../services/user';
 import Util from 'util';
 import Passport from 'passport';
 import PassportMiddleware from '../lib/passport/passportMiddleware';
-import Utilities from '../lib/utilities/utilities';
 
 const router = Express.Router();
 

@@ -1,4 +1,5 @@
 import Nodemailer from 'nodemailer'
+import {Log} from './log'
 
 module.exports = {
     //Used for Mailing

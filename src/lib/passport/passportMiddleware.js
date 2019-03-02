@@ -2,6 +2,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const FaceBookStrategy = require('passport-facebook').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const Mongo = require('../dbConnection/mongodb');
+import { Log } from '../../services/log';
 
 module.exports = {
 	initAuthWithJwt: function(passport) {
