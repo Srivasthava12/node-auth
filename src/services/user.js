@@ -41,7 +41,7 @@ module.exports = {
 					email: user.email
 				}
 				//Preparing  JWT token
-				const token = Utilities.generateToken(dataToJWTGen, 604800 /*1 week*/ );
+				const token = Utilities.generateToken(userData, 604800 /*1 week*/ );
 				return {
 					success: true,
 					message: 'Successfull Login ',
