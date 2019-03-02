@@ -53,6 +53,7 @@ module.exports = {
 			throw error;
 		}
 	},
+
 	async updateUserProperty(query, toUpdatePropsQuery) {
 		try {
 			return User.findOneAndUpdate(query, toUpdatePropsQuery);

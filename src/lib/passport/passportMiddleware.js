@@ -32,7 +32,7 @@ module.exports = {
 					//Client ID from Facebook Developer
 					clientID: process.env.CLIENT_ID,
 					clientSecret: process.env.CLIENT_SECRET,
-					callbackURL: `${process.env.SERVER_URL}/user/authenticate/facebook/return`,
+					callbackURL: `${process.env.SERVER_URL}/user/authenticate/facebook/return/`,
 					profileFields: [ 'id', 'displayName', 'photos', 'email' ]
 				},
 				function(accessToken, refreshToken, profile, cb) {

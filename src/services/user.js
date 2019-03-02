@@ -35,17 +35,18 @@ module.exports = {
 			//Comparing passwords
 			const isMatched = await Utilities.comparePassword(passoword, user.password);
 			if (isMatched) {
+				const userData = {
+					name: user.name,
+					username: user.username,
+					email: user.email
+				}
 				//Preparing  JWT token
-				const token = Utilities.generateToken(user, 604800 /*1 week*/);
+				const token = Utilities.generateToken(dataToJWTGen, 604800 /*1 week*/ );
 				return {
 					success: true,
 					message: 'Successfull Login ',
 					token: 'JWT ' + token,
-					user: {
-						name: user.name,
-						username: user.username,
-						email: user.email
-					}
+					user: userData
 				};
 			}
 			return {
@@ -69,7 +70,7 @@ module.exports = {
 				};
 			}
 			//Preparing  JWT token
-			const token = Utilities.generateToken(user, 600 /*10 mins*/);
+			const token = Utilities.generateToken(user, 600 /*10 mins*/ );
 			const message = Utilities.getMessageForMail('forgotPassword', token);
 			const info = await MailService.nodeMailer(email, 'ProjectZeros Password Assistance', message);
 			if (info) {
@@ -124,7 +125,9 @@ module.exports = {
 
 	async updateProperty(email, toUpdatePair) {
 		try {
-			const query = { email };
+			const query = {
+				email
+			};
 			const user = await Mongo.updateUserProperty(query, toUpdatePair);
 			return user;
 		} catch (error) {

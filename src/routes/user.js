@@ -144,4 +144,6 @@ router.post('/changepassword', PassportMiddleware.authWithJwt(Passport), async (
 		return res.boom.badRequest('Error in Processing Forgotpassword', error);
 	}
 });
+
+
 module.exports = router;
