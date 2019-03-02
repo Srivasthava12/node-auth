@@ -1,14 +1,14 @@
 {
-	"name": "node-temp",
+	"name": "node-auth",
 	"version": "1.0.0",
-	"description": "Node Templete",
+	"description": "Authentication with Node",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "npm run build && mocha dist/test/**/*.test.js",
+		"coverage": "nyc npm test",
 		"build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
 		"start": "npm run build && node dist/index.js",
-		"docker": "docker build -t srivasthava/node:v1 .",
-		"docker-sh": "docker build -t srivasthava/node:v1 .;docker run -p 3000:3000 -it --entrypoint=sh srivasthava/node:v1 -i"
+		"lint": "eslint --ext .js ./src"
 	},
 	"author": "Srivasthava Nunna",
 	"license": "ISC",
@@ -38,6 +38,11 @@
 		"babel-polyfill": "^6.26.0",
 		"babel-preset-env": "^1.7.0",
 		"babel-register": "^6.26.0",
-		"rimraf": "^2.6.1"
+		"code": "^5.2.4",
+		"eslint": "^5.14.1",
+		"mocha": "^5.2.0",
+		"nyc": "^13.3.0",
+		"rimraf": "^2.6.1",
+		"sinon": "^7.2.3"
 	}
 }

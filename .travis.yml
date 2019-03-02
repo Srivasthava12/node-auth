@@ -1,0 +1,15 @@
+language: node_js
+services:
+  - docker
+before_install:
+  - curl https://cli-assets.heroku.com/install.sh | sh
+  #login to heroku
+  -  echo "$HEROKU_API_KEY" | docker login --username="$HEROKU_USERNAME" --password-stdin registry.heroku.com
+  - heroku container:login
+node_js:
+  - "stable"
+script:
+  - make build-agent
+after_success:
+  - heroku container:push -a "$SERVICE_NAME" web
+  - heroku container:release -a "$SERVICE_NAME" web

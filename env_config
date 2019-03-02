@@ -1,0 +1,2 @@
+REGISTRY=registry.heroku.com/
+SERVICE_NAME=node-auth-app

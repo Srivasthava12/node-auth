@@ -77,11 +77,13 @@ router.post('/authenticate', async (req, res) => {
 	}
 });
 
-//Authentication with facebook
-router.get('/register/facebook', PassportMiddleware.authWithFacebook(Passport));
+
+//Register with facebook
+router.get('/authenticate/facebook', PassportMiddleware.authWithFacebook(Passport));
 
 //Retrun URL for facebook
-router.get('/register/facebook/return', Passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+router.get('/authenticate/facebook/return', Passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+	try {
 		const io = req.app.get('io');
 		const user = {
 			user: req.user._json,
@@ -89,8 +91,10 @@ router.get('/register/facebook/return', Passport.authenticate('facebook', { fail
 		};
 		io.in(req.session.socketId).emit('facebook', user);
 		res.end();
+	} catch (error) {
+		return res.boom.badRequest('Error in authenticating the user', error);
 	}
-);
+});
 
 //Profile
 router.get('/profile', PassportMiddleware.authWithJwt(Passport), (req, res) => {
