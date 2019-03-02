@@ -22,6 +22,14 @@ build:
 
 # ------------Build-agent ----------------
 
-build-agent: dc-build
-	docker-compose run app run lint
-	docker-compose run app run coverage
+BUILD_AGENT = $(SERVICE_NAME)-build-agent
+
+build-agent:
+	- docker rm -f $(BUILD_AGENT)
+	docker build -t $(BUILD_AGENT) .
+
+	#Lint
+	docker run --rm --entrypoint=npm $(BUILD_AGENT) run lint
+
+	#Test
+	docker run --rm --entrypoint=npm $(BUILD_AGENT) run coverage
