@@ -1,7 +1,7 @@
 FROM node
 
 # Create app directory
-WORKDIR /user/src/app
+WORKDIR /user/src
 
 COPY package*.json ./
 
