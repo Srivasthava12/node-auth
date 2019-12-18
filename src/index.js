@@ -62,7 +62,7 @@ Passport.build(app);
 Router.build(app);
 
 //Listen to Port
-server.listen(port, '0.0.0.0', (err) => {
+server.listen(port, (err) => {
 	if (err) {
 		Log.info(err);
 	} else {

@@ -3,16 +3,19 @@ services:
   app:
     container_name: node-app
     restart: always
-    build: .
+    build: . 
     ports:
-      - '5000:5000'
+      - 5000:5000
     depends_on:
       - mongo
+    volumes: 
+      - ./:/user/src
+      - /user/src/node_modules
   mongo:
     container_name: mongo
     image: mongo
     ports:
-      - '27017:27017'
+      - 27017:27017
     # Only For Prod
     # volumes:
     #   - ./data/db:/data/db
