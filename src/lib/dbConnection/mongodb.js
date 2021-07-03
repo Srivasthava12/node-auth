@@ -32,6 +32,7 @@ module.exports = {
 		return User.findOne(query);
 	},
 
+	//Hashing here
 	//Add the User to DataBase
 	async addUser(newUser) {
 		try {
