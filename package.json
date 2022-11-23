@@ -30,7 +30,7 @@
 		"passport-facebook": "*",
 		"passport-jwt": "*",
 		"request": "^2.88.0",
-		"socket.io": "^2.2.0"
+		"socket.io": "^2.5.0"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.24.0",
